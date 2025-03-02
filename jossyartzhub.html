@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jossyartz - Art Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            height: 90vh;
+            background: url('https://i.postimg.cc/dVJ0YLdT/Lumii-20231017-185602755.jpg') no-repeat center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-direction: column;
+    justify-content: space-between; /* This will separate the top and bottom content */
+            text-align: center;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+header-content {
+    z-index: 1;
+    margin-top: 20vh; /* Adjust this value to position the top content */
+}
+        header h1 {
+            font-size: 4rem;
+            z-index: 1;
+            font-family: 'Times New Roman', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+ 
+header h3 {
+    font-size: 2rem;
+    margin-top: 10px;
+    color:white;
+
+}
+
+header p.typewriter {
+    margin-bottom: 20vh; /* Adjust this value to position the bottom content */
+    z-index: 1;
+}
+
+        /* General Section Styles */
+        section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end) infinite;
+            color: yellow;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        h2 {
+            color: teal;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: center;
+            border-bottom: 2px solid teal;
+            padding-bottom: 10px;
+        }
+
+        /* About Artist */
+        #about-artist {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Drawings */
+        .drawing-grid, .portrait-grid, .music-grid, .soccer-grid, .latte-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .drawing-item, .portrait-item, .music-item, .soccer-item, .latte-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .drawing-item img, .portrait-item img, .music-item img, .soccer-item img, .latte-item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Gallery Carousel */
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #prevBtn { left: 10px; }
+        #nextBtn { right: 10px; }
+
+        /* Music Section */
+        .music-item .overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .music-item.active .overlay {
+            display: flex;
+        }
+
+        /* Soccer Section */
+        .soccer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .soccer-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .soccer-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .soccer-item p {
+            flex: 1;
+        }
+
+        /* Reviews */
+        .review {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Contact Form */
+        #order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: teal;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #order-form input, #order-form textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #order-form button {
+            padding: 10px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: teal;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Map */
+        #map {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .drawing-grid, .portrait-grid, .music-grid, .soccer-grid, .latte-grid {
+                grid-template-columns: 1fr;
+            }
+            #contact-info {
+                text-align: center;
+                font-size: 26px;
+            }
+        }
+
+        /* Gallery Popup */
+        .gallery-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .gallery-popup img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .gallery-popup.active {
+            display: flex;
+        }
+        #top{font-family:calligraphy;
+            
+        }
+             #scrollToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #scrollToTopBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Jossyartz</h1><br>
+           <h3>The home of arts</h3>
+        <p class="typewriter">Welcome to the world of art and creativity...</p>
+    </header>
+    <!-- About Artist -->
+    <section id="about-artist">
+        <h2>About the Artist</h2>
+        <p style="font-family: 'Times New Roman', serif; font-size:20px">
+        JossyArtz is a passionate Kenyan fine artist renowned for his expertise in pencil art, specializing in graphite, charcoal as well as  latte art. He brings imaginations to life through drawing stunning portraits, music-inspired art, soccer illustrations, charcoal art, wildlife and nature arts and even latte art. Ranked among the top artists by an African art hub (MASK), his talent has also gained international recognition, with artworks like his Messi-Argentina World Cup winning piece receiving global appreciation.
+
+Beyond art, JossyArtz is a graduate in Tourism Management, has a keen eye for  web development, an agriculturist, and an insightful football analyst who stays updated with the latest trends. He is also proficient in remote tasks, leveraging his  sharp analytical mind to adapt, strategize, and make the best out of every situation. His diverse expertise blends creativity, technical skills, and deep intellectual insight, making him a dynamic and multifaceted professional.
+        </p>
+    </section>
+
+    <!-- Drawings -->
+    <section id="drawings">
+        <h2>Drawings</h2>
+        <div class="drawing-grid">
+            <div class="drawing-item">
+                <img src="https://i.postimg.cc/d1MV29pD/Lumii-20240406-133939181.jpg" alt="Poly-chroma">
+                <p  style="font-family: 'Times New Roman', serif;">This striking pencil artwork blends realism with expressive color to create a powerful portrait. The subject's intense gaze and bold features are accentuated by a vivid mix of hues, giving the piece a dynamic and almost electric feel. The deep black shading in the hair and beard contrasts beautifully with the vibrant skin tones, adding depth and personality. A unique fusion of traditional portraiture and contemporary artistic style.</p>
+            </div>
+            <div class="drawing-item">
+                <img src="https://i.postimg.cc/tT3fpCFY/IMG-20241116-095405.jpg" alt="For the Love">
+                <p style="font-family: 'Times New Roman', serif;">The art <b>"For the love", </b> is a stunning pencil drawing depicting Jesus Christ wearing a crown of thorns, gazing down solemnly at the scene of the crucifixion. The lower portion of the artwork illustrates three crosses, symbolizing the crucifixion of Jesus and the two thieves at Golgotha. The shading and intricate details, especially in the facial expression and texture of the hair and thorns, evoke deep emotion, love for the people and spirituality. The contrast between light and dark enhances the dramatic effect of the composition.</p>
+            </div>
+            <div class="drawing-item">
+                <img src="https://i.postimg.cc/Y075XSQw/IMG-20250301-203224.jpg">
+                <p  style="font-family: 'Times New Roman', serif;">This is a stunning colored pencil portrait of a woman wearing a vibrant headscarf and large hoop earrings. The artwork captures intricate facial details, rich textures, and expressive eyes that exude confidence and grace. The shading and highlights bring depth to her skin tone, while the headscarf adds a splash of color, beautifully contrasting with her natural curls. The background softly fades, ensuring focus remains on the subject. The piece showcases an impressive blend of realism and artistic expression.</p>
+            </div>
+            <div class="drawing-item">
+                <img src="https://i.postimg.cc/yNdYDtL1/Lumii-20230626-115624828.jpg">
+                <p style="font-family: 'Calligraphy', cursive;">This is a beautifully detailed pencil portrait of a young girl, skillfully rendered in grayscale. The artwork captures her expressive eyes, delicate facial features, and natural hair texture with impressive precision. The shading and highlights add depth, making the portrait look lifelike. This piece showcases remarkable realism and artistic mastery.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portraits -->
+    <section id="portraits">
+        <h2>Portraits</h2>
+        <div class="portrait-grid">
+            <div class="portrait-item"><img src="https://i.postimg.cc/V642ffq1/IMG-20241220-140635.jpg"></div>
+            <p style="text-align:center;">HE. Rigathi Gachagua </p>
+            <div class="portrait-item"><img src="https://i.postimg.cc/kX2LCdB3/IMG-20241220-140743.jpg" alt="Portrait 2"></div>
+            <p style="text-align:center;">PS Energy, Hon. Alex Wachira </p>
+            <div class="portrait-item"><img src="https://i.postimg.cc/Pxscg8pg/Lumii-20240622-173209773.jpg"></div>
+            <p style="text-align:center;">HE. Rigathi Gachagua </p>
+            <div class="portrait-item"><img src="https://i.postimg.cc/Dzj05nS4/IMG-20250210-171721.jpg"></div>
+            <p style="text-align:center;">CEO Bonfire adventure, Simon Kabu </p>
+            <div class="portrait-item"><img src="https://i.postimg.cc/MHtFdmWy/IMG-20250301-202445.jpg"></div>
+            <p style="text-align:center;">Jossyartz </p>
+        </div>
+    </section>
+
+    <!-- Gallery Carousel -->
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <div class="carousel">
+            <div class="slides">
+                <div class="slide"><img src="https://i.postimg.cc/RhrMbF4h/IMG-20231019-165003.jpg"></div>
+                <div class="slide"><img src="https://i.postimg.cc/50g3sHwq/IMG-20250105-220429.jpg"></div>
+                <div class="slide"><img src="https://i.postimg.cc/sfm3xyjM/IMG-20240403-103006.jpg"></div>
+                 <div class="slide"><img src="https://i.postimg.cc/Fzh6R5xG/IMG-20241011-132732.jpg"></div>
+                  <div class="slide"><img src="https://i.postimg.cc/DwSMmcqV/IMG-20241208-114116.jpg"></div>
+                   <div class="slide"><img src="https://i.postimg.cc/K8Hzzb5P/IMG-20240403-102756.jpg"></div>
+                    <div class="slide"><img src="https://i.postimg.cc/cHfqM3gm/IMG-20250301-203143.jpg"></div>
+                    <div class="slide"><img src="https://i.postimg.cc/4d6MhTq2/IMG-20250301-202514.jpg"></div>
+            </div>
+            
+            <button id="prevBtn" class="carousel-btn">❮</button>
+            <button id="nextBtn" class="carousel-btn">❯</button>
+        </div>
+        <p style="text-align:center;">Press me</p>
+    </section>
+
+    <!-- Music -->
+    <section id="music">
+        <h2>Music</h2>
+        <div class="music-grid">
+            <div class="music-item">
+                <img src="https://i.postimg.cc/K8CsTgN1/IMG-20250108-161831.jpg">
+                <p>King of Pop, Michael Jackson</p>
+            </div>
+            <div class="music-item">
+                <img src="https://i.postimg.cc/K8MXPy2r/IMG-20241005-101201.jpg">
+                <p>Jose Gatutura</p>
+            </div>
+            <div class="music-item">
+                <img src="https://i.postimg.cc/SRg4vLT6/IMG-20241005-101323.jpg">
+                <p>Muigai Wa Njoroge</p>
+            </div>
+            <div class="music-item">
+                <img src="https://i.postimg.cc/NjZPJMwP/Polish-20250209-161210537.jpg">
+                <p>Waithaka Wa Jane</p>
+            </div>
+            <div class="music-item">
+                <img src="https://i.postimg.cc/Pxscg8pg/Lumii-20240622-173209773.jpg">
+                <p>Nyashinski</p>
+            </div>
+            <div class="music-item">
+                <img src="https://i.postimg.cc/KYPdWr41/IMG-20241005-101117.jpg">
+                <p>Gathee Wa Njeri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soccer -->
+    <section id="soccer">
+        <h2>Sports</h2>
+        <div class="soccer-grid">
+            <div class="soccer-item">
+                <img src="https://i.postimg.cc/25nDDN98/IMG-20241204-095851.jpg">
+                <p>Lionel Messi triumphant moment with the FIFA World Cup trophy and player of the tournament award</p>
+            </div>
+            <div class="soccer-item">
+                <img src="https://i.postimg.cc/nhWNy2q2/IMG-20241210-132429.jpg">
+                <p>Atalanta star Ademola Lookman, proudly holding the UEFA Europa League trophy while biting his winner's medal.</p>
+            </div>
+            <div class="soccer-item">
+                <img src="https://i.postimg.cc/cJ8P03mS/IMG-20241210-132448.jpg">
+                <p>Lamine Yamal with a world class finish during the Euros 2024 against italy.</p>
+            </div>
+            <div class="soccer-item">
+                <img src="https://i.postimg.cc/jSDF4fB7/Polish-20250209-162457946.jpg">
+                <p>Faith Kipyegon- a world champion and a celebrated lond-distance runner.</p>
+            </div>
+            <div class="soccer-item">
+                <img src="https://i.postimg.cc/RVV8qyRG/Lumii-20240701-153132507.jpg">
+                <p>Liverpool star Mohamed Salah</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latte Art -->
+    <section id="latte-art">
+        <h2>LATTE ART</h2>
+        <div class="latte-grid">
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/5N8BdqDJ/Lumii-20240429-175313061.jpg">
+                <p>"In the land"</p>
+            </div>
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/XNRfzDHx/Lumii-20240429-175403489.jpg">
+                <p>The Eiffel tower.</p>
+            </div>
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/XNGKx08p/Lumii-20240429-175339706.jpg">
+                <p>"You and me".</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charcoal Art -->
+    <section id="charcoal-art">
+        <h2>CHARCOAL ART</h2>
+        <div class="latte-grid">
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/XNgmj4wp/IMG-20250301-202306.jpg">
+                <p>"Rose"</p>
+            </div>
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/FRYRB8SW/IMG-20241116-095303.jpg">
+                <p>"The Wild Gazelle"</p>
+            </div>
+            <div class="latte-item">
+                <img src="https://i.postimg.cc/tT3fpCFY/IMG-20241116-095405.jpg">
+                <p>"For the Love".</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="reviews">
+        <h2>Customer Reviews</h2>
+        <div class="review">
+            <p>"Amazing artwork! Loved the portrait." - CEO, John, ⭐⭐⭐⭐⭐</p>
+        </div>
+        <div class="review">
+            <p>"I can say your work is outstanding" - Mary, ⭐⭐⭐⭐</p>
+        </div>
+         <div class="review">
+            <p>"We should support such a talent. Amazing work!" - CS, Alex ⭐⭐⭐⭐</p>
+        </div>
+         <div class="review">
+            <p> "keep going, always the best!" - Lucyjoy  ⭐⭐⭐⭐</p>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2>About Jossyartz</h2>
+        <p>We offer a variety of art including drawings, portraits, music-inspired pieces, soccer illustrations, and latte art. Open to custom orders and framing available.</p>
+    </section>
+
+    <!-- Contact Info -->
+    <section id="contact-info">
+        <h2>Contact Us</h2>
+        <p>Phone: +254 759 403 174</p>
+        <p>Location: Nyeri Town, Kenya</p>
+        <p>WhatsApp: <a href="https://wa.me/254759403174" target="_blank">Chat with us</a></p>
+        <p>Working Hours: Mon-Fri, 9 AM - 5 PM</p>
+    </section>
+
+    <!-- Order Form -->
+    <section id="order">
+        <h2>Place an Order</h2>
+        <form id="order-form" action="mailto:jossyjunior22@gmail.com" method="POST" enctype="text/plain">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="order" rows="5" placeholder="Your Order Details" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <p>© 2025 Jossyartz. All Rights Reserved.</p>
+            </div>
+            <div>
+                <p>Language: <select><option>English</option><option>Swahili</option></select></p>
+            </div>
+            <div>
+                <p>Welcome to Jossyartz! Explore the art world with us.</p>
+            </div>
+            <div>
+                <p>Current Time: <span id="time"></span></p>
+            </div>
+        </div>
+        <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.167748843543!2d36.94725961425602!3d-0.4202953996806736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1829b0e7c0e7e5b5%3A0x8e6b7e7e5f5e5e5e!2sNyeri%2C%20Kenya!5e0!3m2!1sen!2sus!4v1614712345678!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+    </footer>
+
+    <!-- Gallery Popup -->
+    <div class="gallery-popup">
+        <img src="" alt="Popup Image">
+    </div>
+
+    <script>
+        // Carousel
+        const slides = document.querySelector('.slides');
+        const slideCount = document.querySelectorAll('.slide').length;
+        let currentIndex = 0;
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slideCount;
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+
+        // Music Overlay
+        document.querySelectorAll('.music-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // Current Time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Gallery Popup
+        const galleryPopup = document.querySelector('.gallery-popup');
+        const popupImg = galleryPopup.querySelector('img');
+
+        document.querySelectorAll('.slide img').forEach(img => {
+            img.addEventListener('click', () => {
+                popupImg.src = img.src;
+                galleryPopup.classList.add('active');
+            });
+        });
+
+        galleryPopup.addEventListener('click', () => {
+            galleryPopup.classList.remove('active');
+        });
+    </script>
+</body>
+<body>
+    <button id="scrollToTopBtn" onclick="scrollToTop()">Top</button><script>
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    
+    window.onscroll = function() {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+    
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
